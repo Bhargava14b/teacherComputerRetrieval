@@ -45,7 +45,7 @@ namespace TeacherComputerRetrievalConsoleApp
                 Console.WriteLine("Please enter a route to get the distance:");
                 string distanceRoute = Console.ReadLine();
                 int outDistance = 0;
-                while (!ValidateDistanceRoute(distanceRoute, out outDistance))
+                while (!ValidateAndGetDistanceOfRoute(distanceRoute, out outDistance))
                 {
                     distanceRoute = Console.ReadLine();
                 }
@@ -79,6 +79,7 @@ namespace TeacherComputerRetrievalConsoleApp
                     Console.WriteLine("Do you want to restrict the number of stops.. yes/no?:");
                     restrictToNumberOfStops = Console.ReadLine();
                 }
+                int outNumberOfStops = 0;
                 if (restrictToNumberOfStops.ToUpper() == "YES")
                 {
                     Console.WriteLine("Please enter the number of stops:");
@@ -89,7 +90,6 @@ namespace TeacherComputerRetrievalConsoleApp
                         strNumberofStops = Console.ReadLine();
                     }
 
-                    int outNumberOfStops = 0;
                     while (!int.TryParse(strNumberofStops, out outNumberOfStops))
                     {
                         Console.WriteLine("Please enter a valid number:");
@@ -98,7 +98,7 @@ namespace TeacherComputerRetrievalConsoleApp
 
                 }
 
-
+                string[] possibleRoutes = GetRoutesBetweenAcademies(starting, ending);
 
             }
             else if (action == 3)
@@ -111,7 +111,7 @@ namespace TeacherComputerRetrievalConsoleApp
         {
             return new Dictionary<int, string>()
             {
-                { 1,  "Find total distance of a input route" },
+                { 1, "Find total distance of a input route" },
                 { 2, "Find Number of different routes between two academies" },
                 { 3, "Find shortest route between two academies"}
             };
@@ -140,7 +140,7 @@ namespace TeacherComputerRetrievalConsoleApp
             return true;
         }
 
-        public static bool ValidateDistanceRoute(string route, out int totalDistance)
+        public static bool ValidateAndGetDistanceOfRoute(string route, out int totalDistance)
         {
             totalDistance = 0;
             if (string.IsNullOrEmpty(route))
@@ -176,10 +176,58 @@ namespace TeacherComputerRetrievalConsoleApp
             return true;
         }
 
-        //public static int GetTotalDistanceOfRoute(string route)
-        //{
+        public static string[] GetRoutesBetweenAcademies(string starting, string ending)
+        {
+            string[] routestWithStartPoint = routes.Where(x => x[0].ToString() == starting).ToArray();
+            int numberOfRoutestWithStartPoint = 0;
+            if (routestWithStartPoint.Length <= 0)
+            {
+                //Console.WriteLine("No routes found with starting:" + starting + " and ending:" + ending);
+                return new string[] { };
+            }
+            List<string> lstMatchingRoutes = new List<string>();
 
-        //}
+            while (numberOfRoutestWithStartPoint < routestWithStartPoint.Length)
+            {
+                string[] str1 = routestWithStartPoint.Where(x => x[1].ToString() == ending).ToArray();
+                if (str1.Length > 0)
+                {
+
+                }
+
+                if (routestWithStartPoint[numberOfRoutestWithStartPoint][1].ToString() == ending)
+                {
+                    lstMatchingRoutes.Add(routestWithStartPoint[numberOfRoutestWithStartPoint]);
+                }
+                else
+                {
+                    string[] tempRoutes = GetRoutesBetweenAcademies(routestWithStartPoint[numberOfRoutestWithStartPoint][1].ToString(), ending);
+                }
+                numberOfRoutestWithStartPoint++;
+            }
+
+            return lstMatchingRoutes.ToArray();
+
+            string finalRoute = "";
+            foreach (string r in routestWithStartPoint)
+            {
+                if (r[1].ToString() == ending)
+                {
+                    finalRoute = r[1].ToString() + "-" + ending;
+                }
+                string[] tempStarts = routes.Where(x => x[0].ToString() == r[1].ToString()).ToArray();
+                foreach (string r1 in tempStarts)
+                {
+                    if (r1[1].ToString() == ending)
+                    {
+                        finalRoute = r[1].ToString() + "-" + r1[1] + "-" + ending;
+                    }
+                }
+            }
+
+            return new string[] { };
+        }
+
     }
 
     public class RouteValidator
