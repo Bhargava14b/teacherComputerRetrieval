@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherComputerRetrievalConsoleApp", "TeacherComputerRetrievalConsoleApp\TeacherComputerRetrievalConsoleApp.csproj", "{6FCC2C1F-D405-47EB-A80F-0DE5C1D40634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCR.UnitTest", "TCR.UnitTest\TCR.UnitTest.csproj", "{9CE9FB2D-8EE2-4877-AEE5-391063307E12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6FCC2C1F-D405-47EB-A80F-0DE5C1D40634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FCC2C1F-D405-47EB-A80F-0DE5C1D40634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FCC2C1F-D405-47EB-A80F-0DE5C1D40634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CE9FB2D-8EE2-4877-AEE5-391063307E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE9FB2D-8EE2-4877-AEE5-391063307E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE9FB2D-8EE2-4877-AEE5-391063307E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE9FB2D-8EE2-4877-AEE5-391063307E12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

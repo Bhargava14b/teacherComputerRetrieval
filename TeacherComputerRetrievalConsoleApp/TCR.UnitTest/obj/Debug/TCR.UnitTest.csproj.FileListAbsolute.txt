@@ -1,0 +1,17 @@
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\TCR.UnitTest.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\TCR.UnitTest.pdb
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\TeacherComputerRetrievalConsoleApp.exe
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\TeacherComputerRetrievalConsoleApp.pdb
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\TeacherComputerRetrievalConsoleApp.exe.config
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\obj\Debug\TCR.UnitTest.csprojAssemblyReference.cache
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\obj\Debug\TCR.UnitTest.csproj.CoreCompileInputs.cache
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\obj\Debug\TCR.UnitTest.csproj.CopyComplete
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\obj\Debug\TCR.UnitTest.dll
+C:\csource\repos_march10\teacherComputerRetrieval\TeacherComputerRetrievalConsoleApp\TCR.UnitTest\obj\Debug\TCR.UnitTest.pdb
