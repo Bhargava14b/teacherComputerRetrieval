@@ -8,7 +8,7 @@ namespace TeacherComputerRetrievalConsoleApp
 {
     public class TeacherComputerRetrievalHelper
     {
-        List<string> routes = new List<string>();
+        public List<string> routes = new List<string>();
 
         public void RetrieveTeacherComputers()
         {
@@ -62,13 +62,15 @@ namespace TeacherComputerRetrievalConsoleApp
             while (!int.TryParse(strAction, out action) || !questions.Any(x => x.Key.ToString() == strAction))
             {
                 Console.WriteLine(AppResources.InvalidActionTryAgain);
+                Console.WriteLine(AppResources.YourInput);
                 strAction = Console.ReadLine();
             }
 
             if (action == 1)
             {
                 Console.WriteLine(AppResources.EnterRouteToGetDistance);
-                int outDistance = GetDistanceBetweenRoutes();
+                string distanceRoute = Console.ReadLine();
+                int outDistance = GetDistanceBetweenRoutes(distanceRoute);
                 Console.WriteLine(AppResources.TotalDistanceBWRoutes + outDistance.ToString());
 
                 string strInput = Console.ReadLine();
@@ -90,11 +92,11 @@ namespace TeacherComputerRetrievalConsoleApp
             }
             else if (action == 4)
             {
-                GetShortestDistanceRoute();
+                PrintShortestDistanceRoute();
             }
             else if (action == 5)
             {
-                GetAllPossibleRoutesHavingDistance();
+                PrintAllPossibleRoutesHavingDistance();
             }
         }
 
@@ -110,9 +112,8 @@ namespace TeacherComputerRetrievalConsoleApp
             };
         }
 
-        public int GetDistanceBetweenRoutes()
+        public int GetDistanceBetweenRoutes(string distanceRoute)
         {
-            string distanceRoute = Console.ReadLine();
             int outDistance = 0;
             while (!ValidateAndGetDistanceOfRoute(distanceRoute.ToUpper(), out outDistance))
             {
@@ -194,18 +195,16 @@ namespace TeacherComputerRetrievalConsoleApp
                 strNumberofStops = Console.ReadLine();
             }
 
-            var allPossibleRoutes = GetAllPossibleRoutes(starting.ToUpper(), ending.ToUpper());
-
             if (isExactStops)
             {
-                string[] restrictedRoutes = allPossibleRoutes.Where(x => x.Split('-').Length == outNumberOfStops + 1).ToArray();
+                string[] restrictedRoutes = GetNumberOfTripBetweenAcademiesWithExactStops(starting.ToUpper(), ending.ToUpper(), outNumberOfStops);
                 Console.WriteLine(string.Format(AppResources.PossibleRoutesBW, starting.ToUpper(), ending.ToUpper(), restrictedRoutes.Length));
                 foreach (string strR in restrictedRoutes)
                     Console.WriteLine(strR);
             }
             else
             {
-                string[] restrictedRoutes = allPossibleRoutes.Where(x => x.Split('-').Length <= outNumberOfStops + 1).ToArray();
+                string[] restrictedRoutes = GetNumberOfTripBetweenAcademiesWithMaxStops(starting.ToUpper(), ending.ToUpper(), outNumberOfStops);
                 Console.WriteLine(string.Format(AppResources.PossibleRoutesBW, starting.ToUpper(), ending.ToUpper(), restrictedRoutes.Length));
                 foreach (string strR in restrictedRoutes)
                     Console.WriteLine(strR);
@@ -221,6 +220,20 @@ namespace TeacherComputerRetrievalConsoleApp
                 PerformActions();
         }
 
+        public string[] GetNumberOfTripBetweenAcademiesWithMaxStops(string starting, string ending, int outNumberOfStops)
+        {
+            var allPossibleRoutes = GetAllPossibleRoutes(starting.ToUpper(), ending.ToUpper());
+            string[] restrictedRoutes = allPossibleRoutes.Where(x => x.Split('-').Length <= outNumberOfStops + 1).ToArray();
+            return restrictedRoutes;
+        }
+
+        public string[] GetNumberOfTripBetweenAcademiesWithExactStops(string starting, string ending, int outNumberOfStops)
+        {
+            var allPossibleRoutes = GetAllPossibleRoutes(starting.ToUpper(), ending.ToUpper());
+            string[] restrictedRoutes = allPossibleRoutes.Where(x => x.Split('-').Length == outNumberOfStops + 1).ToArray();
+            return restrictedRoutes;
+        }
+
         public List<string> GetAllPossibleRoutes(string starting, string ending)
         {
             Dictionary<string, string[]> lstRoutesVisited = new Dictionary<string, string[]>();
@@ -228,24 +241,16 @@ namespace TeacherComputerRetrievalConsoleApp
             string[] possibleRoutes = GetRoutesBetweenAcademies(starting.ToUpper(), ending.ToUpper(), ref lstRoutesVisited);
             List<string> allPossibleRoutes = new List<string>();
 
-            if (starting.ToUpper() == ending.ToUpper())
-            {
-                string[] possibleSubtypeRoutes = GetRoutesBetweenAcademies(ending.ToUpper(), ending.ToUpper(), ref lstRoutesVisited);
+            string[] possibleSubtypeRoutes = GetRoutesBetweenAcademies(ending.ToUpper(), ending.ToUpper(), ref lstRoutesVisited);
 
-                for (int i = 0; i < possibleSubtypeRoutes.Length; i++)
+            for (int i = 0; i < possibleSubtypeRoutes.Length; i++)
+            {
+                for (int j = 0; j < possibleRoutes.Length; j++)
                 {
-                    for (int j = 0; j < possibleRoutes.Length; j++)
-                    {
-                        allPossibleRoutes.Add(possibleRoutes[j]);
-                        allPossibleRoutes.Add(possibleRoutes[j].Substring(0, possibleRoutes[j].Length - 2) + "-" + possibleSubtypeRoutes[i]);
-                    }
+                    allPossibleRoutes.Add(possibleRoutes[j]);
+                    allPossibleRoutes.Add(possibleRoutes[j].Substring(0, possibleRoutes[j].Length - 2) + "-" + possibleSubtypeRoutes[i]);
                 }
             }
-            else
-            {
-                allPossibleRoutes = possibleRoutes.ToList();
-            }
-
 
             allPossibleRoutes = allPossibleRoutes.Distinct().ToList();
             return allPossibleRoutes;
@@ -305,7 +310,7 @@ namespace TeacherComputerRetrievalConsoleApp
             return true;
         }
 
-        public void GetShortestDistanceRoute()
+        public void PrintShortestDistanceRoute()
         {
             Console.WriteLine(AppResources.EnterStartingAcademy);
             string starting = Console.ReadLine();
@@ -323,7 +328,21 @@ namespace TeacherComputerRetrievalConsoleApp
                 starting = Console.ReadLine();
             }
 
+            KeyValuePair<string, int> shortestDistance = GetShortestDistanceRoute(starting.ToUpper(), ending.ToUpper());
+            Console.WriteLine(string.Format(AppResources.ShortestDistanceRoute, starting.ToUpper(), ending.ToUpper(), (shortestDistance.Equals(new KeyValuePair<string, int>()) ? "0" : (shortestDistance.Value + " (" + shortestDistance.Key + ")"))));
 
+            string strInput = Console.ReadLine();
+            while (string.IsNullOrEmpty(strInput) || strInput.ToUpper() != "YES")
+            {
+                Console.WriteLine(AppResources.YouWantToProceed);
+                strInput = Console.ReadLine();
+            }
+            if (strInput.ToUpper() == "YES")
+                PerformActions();
+        }
+
+        public KeyValuePair<string, int> GetShortestDistanceRoute(string starting, string ending)
+        {
             Dictionary<string, string[]> lstRoutesVisited = new Dictionary<string, string[]>();
             string[] possibleRoutes = GetRoutesBetweenAcademies(starting.ToUpper(), ending.ToUpper(), ref lstRoutesVisited);
 
@@ -347,19 +366,11 @@ namespace TeacherComputerRetrievalConsoleApp
             }
 
             var shortestDistance = allPossibleRouteDistances.OrderBy(x => x.Value).FirstOrDefault();
-            Console.WriteLine(string.Format(AppResources.ShortestDistanceRoute, starting.ToUpper(), ending.ToUpper(), (shortestDistance.Equals(new KeyValuePair<string, int>()) ? "0" : (shortestDistance.Value + " (" + shortestDistance.Key + ")"))));
-
-            string strInput = Console.ReadLine();
-            while (string.IsNullOrEmpty(strInput) || strInput.ToUpper() != "YES")
-            {
-                Console.WriteLine(AppResources.YouWantToProceed);
-                strInput = Console.ReadLine();
-            }
-            if (strInput.ToUpper() == "YES")
-                PerformActions();
+            //Console.WriteLine(string.Format(AppResources.ShortestDistanceRoute, starting.ToUpper(), ending.ToUpper(), (shortestDistance.Equals(new KeyValuePair<string, int>()) ? "0" : (shortestDistance.Value + " (" + shortestDistance.Key + ")"))));
+            return shortestDistance;
         }
 
-        public void GetAllPossibleRoutesHavingDistance()
+        public void PrintAllPossibleRoutesHavingDistance()
         {
             Console.WriteLine(AppResources.EnterStartingAcademy);
             string starting = Console.ReadLine();
@@ -392,6 +403,23 @@ namespace TeacherComputerRetrievalConsoleApp
                 strDistance = Console.ReadLine();
             }
 
+            var possibleRoutesHavingDistance = GetAllPossibleRoutesHavingDistance(starting.ToUpper(), ending.ToUpper(), outDistance);
+            Console.WriteLine(string.Format(AppResources.NumberOfPossibleRoutes, starting.ToUpper(), ending.ToUpper(), outDistance, possibleRoutesHavingDistance.Count()));
+            Console.WriteLine(AppResources.ListOfPossibleRoutesText);
+            foreach (var str in possibleRoutesHavingDistance)
+                Console.WriteLine(str.Key);
+
+            string strInput = Console.ReadLine();
+            while (string.IsNullOrEmpty(strInput) || strInput.ToUpper() != "YES")
+            {
+                Console.WriteLine(AppResources.YouWantToProceed);
+                strInput = Console.ReadLine();
+            }
+            if (strInput.ToUpper() == "YES")
+                PerformActions();
+        }
+        public List<KeyValuePair<string, int>> GetAllPossibleRoutesHavingDistance(string starting, string ending, int outDistance)
+        {
             Dictionary<string, string[]> lstRoutesVisited = new Dictionary<string, string[]>();
             string[] possibleRoutes = GetAllPossibleRoutes(starting.ToUpper(), ending.ToUpper()).ToArray();
 
@@ -415,19 +443,11 @@ namespace TeacherComputerRetrievalConsoleApp
             }
 
             var possibleRoutesHavingDistance = allPossibleRouteDistances.Where(x => x.Value < outDistance).ToList();
-            Console.WriteLine(string.Format(AppResources.NumberOfPossibleRoutes, starting.ToUpper(), ending.ToUpper(), outDistance, possibleRoutesHavingDistance.Count()));
-            Console.WriteLine(AppResources.ListOfPossibleRoutesText);
-            foreach (var str in possibleRoutesHavingDistance)
-                Console.WriteLine(str.Key);
-
-            string strInput = Console.ReadLine();
-            while (string.IsNullOrEmpty(strInput) || strInput.ToUpper() != "YES")
-            {
-                Console.WriteLine(AppResources.YouWantToProceed);
-                strInput = Console.ReadLine();
-            }
-            if (strInput.ToUpper() == "YES")
-                PerformActions();
+            return possibleRoutesHavingDistance;
         }
+
+        #region GetDistanceBWAcademies
+
+        #endregion
     }
 }
